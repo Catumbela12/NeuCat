@@ -12,7 +12,7 @@ class Core {
             unset($url[0]);
         }
 
-        require_once APPROOT . '/Controllers/' . $this->currentController . '.php';
+        require_once APPROOT . '/app/Controllers/' . $this->currentController . '.php';
         $this->currentController = new $this->currentController;
 
         if (isset($url[1])) {
