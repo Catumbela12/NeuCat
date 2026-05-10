@@ -1,16 +1,19 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'neucat_db');
+// config/config.php
 
-define('APPROOT',  dirname(dirname(__FILE__)) . '/app');
-$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
-$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-define('URLROOT',  $protocol . $host . '/neucat_store/public');
-define('SITENAME', 'Neucat');
+// Configurações de Banco de Dados (Render + Railway)
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_NAME', getenv('DB_NAME') ?: 'neucat');
+define('DB_PORT', getenv('DB_PORT') ?: '3306');
 
-// Admin credentials  – senha padrão: neucat@admin2025
-// Para gerar um novo hash: /opt/lampp/bin/php -r "echo password_hash('nova_senha', PASSWORD_DEFAULT);"
-define('ADMIN_USER',      'admin');
-define('ADMIN_PASS_HASH', '$2y$10$SLbMZqpA2hxBoaawRz.p3OSQHjocc44EtsP50k5ZzlZOLpCwc3Oxi');
+define('APP_URL', getenv('APP_URL') ?: 'https://neucat2.onrender.com');
+define('URLROOT', APP_URL);
+
+// Caminho base do projeto
+define('APPROOT', dirname(__DIR__));   // Isso aponta para a raiz do projeto
+
+// Debug (remova depois que funcionar)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
