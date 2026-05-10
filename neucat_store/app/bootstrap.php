@@ -1,19 +1,29 @@
 <?php
-require_once '../config/config.php';
+// app/bootstrap.php
 
-// Start session early so all controllers can use it
+// Carrega configurações do banco
+require_once __DIR__ . '/../config/config.php';
+
+// Inicia sessão
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Autoloader usando APPROOT (caminho absoluto) para evitar erros com cwd relativo
+// Autoloader Melhorado
 spl_autoload_register(function($className) {
-    $corePath   = APPROOT . '/Core/'    . $className . '.php';
-    $modelPath  = APPROOT . '/Models/'  . $className . '.php';
+    $paths = [
+        APPROOT . '/app/Core/' . $className . '.php',
+        APPROOT . '/app/Controllers/' . $className . '.php',
+        APPROOT . '/app/Models/' . $className . '.php',
+        APPROOT . '/Core/' . $className . '.php',
+        APPROOT . '/Controllers/' . $className . '.php',
+        APPROOT . '/Models/' . $className . '.php'
+    ];
 
-    if (file_exists($corePath)) {
-        require_once $corePath;
-    } elseif (file_exists($modelPath)) {
-        require_once $modelPath;
+    foreach ($paths as $path) {
+        if (file_exists($path)) {
+            require_once $path;
+            return;
+        }
     }
 });
