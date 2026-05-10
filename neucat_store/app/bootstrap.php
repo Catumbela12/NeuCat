@@ -1,15 +1,16 @@
+
 <?php
 // app/bootstrap.php
 
-// Carrega as configurações do banco e constantes
+// Carrega configurações primeiro (antes de qualquer saída)
 require_once __DIR__ . '/../config/config.php';
 
-// Inicia a sessão
+// Inicia sessão ANTES de qualquer saída
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Autoloader ajustado para sua estrutura
+// Autoloader
 spl_autoload_register(function($className) {
     $paths = [
         __DIR__ . '/Core/' . $className . '.php',
