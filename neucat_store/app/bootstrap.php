@@ -1,23 +1,20 @@
 <?php
 // app/bootstrap.php
 
-// Carrega configurações do banco
+// Carrega as configurações do banco e constantes
 require_once __DIR__ . '/../config/config.php';
 
-// Inicia sessão
+// Inicia a sessão
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Autoloader Melhorado
+// Autoloader ajustado para sua estrutura
 spl_autoload_register(function($className) {
     $paths = [
-        APPROOT . '/app/Core/' . $className . '.php',
-        APPROOT . '/app/Controllers/' . $className . '.php',
-        APPROOT . '/app/Models/' . $className . '.php',
-        APPROOT . '/Core/' . $className . '.php',
-        APPROOT . '/Controllers/' . $className . '.php',
-        APPROOT . '/Models/' . $className . '.php'
+        __DIR__ . '/Core/' . $className . '.php',
+        __DIR__ . '/Controllers/' . $className . '.php',
+        __DIR__ . '/Models/' . $className . '.php'
     ];
 
     foreach ($paths as $path) {
