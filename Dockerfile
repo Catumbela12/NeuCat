@@ -1,16 +1,11 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-RUN apt-get update && apt-get install -y \
-    libzip-dev unzip \
-    && docker-php-ext-install pdo pdo_mysql mysqli zip
+# Instala a extensão PDO MySQL necessária para o banco de dados
+RUN docker-php-ext-install pdo pdo_mysql
 
-COPY . /var/www/html/
+# Copia todos os arquivos do projeto para a pasta /app no container
+COPY . /app
+WORKDIR /app
 
-# Aponta para a pasta public (ajustado para sua estrutura)
-RUN sed -i 's|/var/www/html|/var/www/html/neucat_store/public|' /etc/apache2/sites-available/000-default.conf
-
-RUN a2enmod rewrite
-
-RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
-
-EXPOSE 80
+# Inicia o servidor PHP rodando na porta correta do Render e usando o router.php
+CMD php -S 0.0.0.0:$PORT -t public router.php
