@@ -1,11 +1,12 @@
 
+
 <?php
 // app/bootstrap.php
 
-// Carrega configurações primeiro (antes de qualquer saída)
+// Configurações - deve ser o primeiro arquivo carregado
 require_once __DIR__ . '/../config/config.php';
 
-// Inicia sessão ANTES de qualquer saída
+// Inicia sessão o mais cedo possível
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
