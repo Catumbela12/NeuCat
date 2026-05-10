@@ -6,9 +6,17 @@ define('DB_NAME', getenv('DB_NAME') ?: 'neucat_db');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 
 define('APPROOT',  dirname(dirname(__FILE__)) . '/app');
-$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ? 'https://' : 'http://';
 $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-define('URLROOT',  $protocol . $host . '/neucat_store/public');
+
+// Check if running on Render (Render sets the RENDER environment variable)
+if (getenv('RENDER') !== false) {
+    // On Render, the app is hosted at the root domain
+    define('URLROOT', $protocol . $host);
+} else {
+    // Locally on XAMPP, it's inside the neucat_store/public folder
+    define('URLROOT', $protocol . $host . '/neucat_store/public');
+}
 define('SITENAME', 'Neucat');
 
 // Admin credentials  – senha padrão: neucat@admin2025
